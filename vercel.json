@@ -1,0 +1,6 @@
+{
+  "buildCommand": "chmod +x node_modules/.bin/* && npm run build",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
