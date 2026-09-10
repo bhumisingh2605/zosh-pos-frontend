@@ -1,0 +1,128 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap');
+
+/* Tailwind v4 defaults dark: utilities to prefers-color-scheme (OS setting).
+   This line makes dark: utilities respond to the .dark class on <html>
+   instead — which is what themeStore.js's applyTheme() toggles. */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-sans: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+
+  --color-ink: #161b22;
+  --color-ink-soft: #1f2630;
+  --color-ink-line: #2c3542;
+  --color-paper: #f6f4ec;
+  --color-paper-raised: #fcfbf6;
+  --color-hairline: #dbd5c4;
+  --color-hairline-soft: #e8e3d5;
+  --color-ledger: #2f6f4e;
+  --color-ledger-dark: #22553b;
+  --color-ledger-soft: #e4efe8;
+  --color-receipt-red: #c1443b;
+  --color-receipt-red-soft: #f7e5e3;
+  --color-brass: #c7962c;
+  --color-brass-soft: #f6ecd3;
+  --color-ink-text: #262019;
+  --color-ink-text-muted: #6f6a5c;
+}
+
+html.dark {
+  --color-paper: #14171c;
+  --color-paper-raised: #1b1f26;
+  --color-hairline: #2c3542;
+  --color-hairline-soft: #232a34;
+  --color-ink-text: #e8e6df;
+  --color-ink-text-muted: #9a9689;
+  --color-ledger-soft: #1c2e24;
+  --color-receipt-red-soft: #33201d;
+  --color-brass-soft: #3a2f16;
+}
+
+/* The dark "ink" surfaces (sidebar, POS terminal, toasts) are always
+   dark regardless of light/dark mode, so their text must always stay
+   light too — don't let it flip when --color-paper changes for dark mode. */
+.bg-ink,
+.bg-ink-soft,
+.bg-ink-line {
+  --color-paper: #f6f4ec;
+  --color-paper-raised: #fcfbf6;
+}
+
+/* Native <select> dropdown popups don't inherit Tailwind utility classes
+   reliably across browsers, so style them explicitly using the same
+   theme variables — this keeps them in sync with light/dark mode. */
+select option {
+  background-color: var(--color-paper-raised);
+  color: var(--color-ink-text);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+html {
+  color-scheme: light;
+}
+html.dark {
+  color-scheme: dark;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-paper);
+  color: var(--color-ink-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #print-receipt, #print-receipt * {
+    visibility: visible;
+  }
+  #print-receipt {
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+  }
+}
+
+.tabular {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--color-brass-soft);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-hairline);
+  border-radius: 6px;
+}
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: #333c48;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
